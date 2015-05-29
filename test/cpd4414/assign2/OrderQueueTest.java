@@ -194,4 +194,11 @@ public class OrderQueueTest {
 
         assertTrue(didThrow);
     }
+    @Test
+    public void testReportWhenNoOrdersThenReturnEmptyString() {
+        OrderQueue orderQueue = new OrderQueue();
+        String expResult = "";
+        String result = orderQueue.report();
+        assertEquals(expResult, result);
+    }
 }
