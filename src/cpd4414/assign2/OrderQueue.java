@@ -50,10 +50,16 @@ public class OrderQueue {
 
     void process(Order next) throws NoTimeReceivedException {
         if (next.equals(next())) {
+             boolean isOkay = true;
+      for (Purchase p : next.getListOfPurchases()) {
+             if (Inventory.getQuantityForId(p.getProductId()) < p.getQuantity())
+                   isOkay = false;
+         }
+           if (isOkay) {
             orderList.add(orderQueue.remove());
             next.setTimeProcessed(new Date());
         } 
-        else if (next.getTimeReceived()==null){
+        }else if (next.getTimeReceived()==null){
             throw new NoTimeReceivedException();
         }
     }
@@ -89,13 +95,13 @@ public class OrderQueue {
     public class NoCustomerException extends Exception {
 
         public NoCustomerException() {
-            super("No Customer Provided");
+            super("Customer not found");
         }
     }
     public class NoPurchasesException extends Exception {
 
         public NoPurchasesException() {
-            super("No Purchases Provided");
+            super("Purchases not found");
         }
     }
     public class NoTimeReceivedException extends Exception {
